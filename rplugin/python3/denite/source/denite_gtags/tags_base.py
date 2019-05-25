@@ -1,5 +1,6 @@
 import re
 from abc import abstractmethod
+from operator import attrgetter
 
 from denite.source.base import Base  # pylint: disable=locally-disabled, import-error
 from denite_gtags import GtagsBase  # pylint: disable=locally-disabled, wrong-import-position
@@ -12,17 +13,26 @@ class TagsBase(GtagsBase):
     @classmethod
     def convert_to_candidates(cls, tags):
         candidates = []
+        max_name_width = 0
         for tag in tags:
             path, line, text = cls._parse_tag(tag)
             col = text.find(text) - 1
+
+            if len(path) > max_name_width:
+                max_name_width = len(path)
+
             candidates.append({
                 'word': text,
                 'action__path': path,
                 'action__line': line,
                 'action__text': text,
                 'action__col': col,
-                'abbr': f'{path:<25} {line:<4} {text}'
             })
+
+        for cand in candidates:
+            cand['abbr'] = '{action__path:<{width}} {action__line:<4} {word}'.format(width=max_name_width, **cand)
+
+        candidates.sort(key=attrgetter('action__text'))
         return candidates
 
     @classmethod
