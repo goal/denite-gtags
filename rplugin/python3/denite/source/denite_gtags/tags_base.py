@@ -32,7 +32,7 @@ class TagsBase(GtagsBase):
         for cand in candidates:
             cand['abbr'] = '{action__path:<{width}} {action__line:<4} {word}'.format(width=max_name_width, **cand)
 
-        candidates.sort(key=itemgetter('action__text'))
+        candidates.sort(key=itemgetter('action__path'))
         return candidates
 
     @classmethod
