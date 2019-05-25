@@ -1,6 +1,6 @@
 import re
 from abc import abstractmethod
-from operator import attrgetter
+from operator import itemgetter
 
 from denite.source.base import Base  # pylint: disable=locally-disabled, import-error
 from denite_gtags import GtagsBase  # pylint: disable=locally-disabled, wrong-import-position
@@ -32,7 +32,7 @@ class TagsBase(GtagsBase):
         for cand in candidates:
             cand['abbr'] = '{action__path:<{width}} {action__line:<4} {word}'.format(width=max_name_width, **cand)
 
-        candidates.sort(key=attrgetter('action__text'))
+        candidates.sort(key=itemgetter('action__text'))
         return candidates
 
     @classmethod
