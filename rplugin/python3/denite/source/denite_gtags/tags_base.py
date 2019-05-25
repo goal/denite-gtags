@@ -16,11 +16,12 @@ class TagsBase(GtagsBase):
             path, line, text = cls._parse_tag(tag)
             col = text.find(text) - 1
             candidates.append({
-                'word': tag,
+                'word': text,
                 'action__path': path,
                 'action__line': line,
                 'action__text': text,
-                'action__col': col
+                'action__col': col,
+                'abbr': f'{path:<25} {line:<4} {text}'
             })
         return candidates
 
