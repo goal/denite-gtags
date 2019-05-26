@@ -46,7 +46,7 @@ class TagsBase(GtagsBase):
     def convert_to_candidates(self, tags):
         candidates = []
         for tag in tags:
-            path, line, text = cls._parse_tag(tag)
+            path, line, text = self._parse_tag(tag)
             col = text.find(self.word) + 1 if self.word else 0
 
             candidates.append({
