@@ -16,6 +16,5 @@ class Source(GtagsBase):
     def get_search_flags(cls):
         return [['-P']]
 
-    @classmethod
-    def convert_to_candidates(cls, tags):
+    def convert_to_candidates(self, tags):
         return [{'word': t, 'action__path': t} for t in tags]

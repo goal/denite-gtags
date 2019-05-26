@@ -19,8 +19,7 @@ class Source(GtagsBase):
             ['-s', '-c']
         ]  # symbols without definitions (only references)
 
-    @classmethod
-    def convert_to_candidates(cls, tags):
+    def convert_to_candidates(self, tags):
         return [{'word': t} for t in tags]
 
 
