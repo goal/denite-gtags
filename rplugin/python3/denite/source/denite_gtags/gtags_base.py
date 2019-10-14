@@ -1,3 +1,4 @@
+import os
 import subprocess
 from abc import abstractmethod
 from denite.source.base import Base  # pylint: disable=locally-disabled, import-error
@@ -11,10 +12,11 @@ def get_subprocess_env(vim):
     """
     if vim.call("exists", "g:loaded_gentags#gtags"):
         if vim.call("eval", "g:loaded_gentags#gtags"):
-            project_root_path = vim.call("eval", "$GTAGSROOT")
-            project_tags_path = vim.call("eval", "$GTAGSDBPATH")
-            return {"GTAGSROOT": project_root_path, "GTAGSDBPATH": project_tags_path}
-    return {}
+            custom_env = os.environ.copy()
+            custom_env["GTAGSROOT"] = vim.call("eval", "$GTAGSROOT")
+            custom_env["GTAGSDBPATH"] = vim.call("eval", "$GTAGSDBPATH")
+            return custom_env
+    return None
 
 
 class GtagsBase(Base):
